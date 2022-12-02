@@ -23,6 +23,17 @@ class HtTodoListController extends State<HtTodoListView>
 
   List todoList = [];
   loadTodoList() async {
+    var response = await Dio().get(
+      "${AppConfig.baseUrl}/todos",
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+    );
+    Map obj = response.data;
+    todoList = obj["data"];
+    setState(() {});
     /*
     TODO: --
     1. Buat sebuah get request menggunakan DIO
@@ -44,6 +55,21 @@ class HtTodoListController extends State<HtTodoListView>
   addTodo() async {
     showLoading();
     var faker = Faker.instance;
+    var response = await Dio().post(
+      "${AppConfig.baseUrl}/todos",
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+      data: {
+        "todo": faker.lorem.sentence(),
+        "done": false,
+      },
+    );
+    await loadTodoList();
+    hideLoading();
+    Map obj = response.data;
     /*
     TODO: --
     4. Buat sebuah get request menggunakan DIO
@@ -70,6 +96,18 @@ class HtTodoListController extends State<HtTodoListView>
   deleteTodo(item) async {
     showLoading();
     print("Delete?");
+    var id = item["id"];
+    var response = await Dio().delete(
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+      "${AppConfig.baseUrl}/todos/$id",
+    );
+    await loadTodoList();
+    hideLoading();
+    print(response.statusCode);
 
     /*
     TODO: --
@@ -92,7 +130,22 @@ class HtTodoListController extends State<HtTodoListView>
   }
 
   updateTodo(item) async {
+    var id = item["id"];
+    item["done"] = !item["done"];
     showLoading();
+    var response = await Dio().post(
+      "${AppConfig.baseUrl}/todos/$id",
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+      data: item,
+    );
+
+    await loadTodoList();
+    hideLoading();
+    Map obj = response.data;
     /*
     TODO: --
     9. Buat sebuah post request menggunakan DIO

@@ -37,6 +37,7 @@ class HtTodoListView extends StatefulWidget {
                 itemCount: controller.todoList.length,
                 itemBuilder: (context, index) {
                   var item = controller.todoList[index];
+                  // print(!item['done']);
                   return Row(
                     children: [
                       IconButton(
@@ -48,7 +49,7 @@ class HtTodoListView extends StatefulWidget {
                       ),
                       Expanded(
                         child: CheckboxListTile(
-                          value: item["done"],
+                          value: item["done"] ?? false,
                           title: Text("${item["todo"]}"),
                           onChanged: (value) {
                             controller.updateTodo(item);
