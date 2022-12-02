@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:example/core.dart';
 
 class HtProductCrudFormView extends StatefulWidget {
+  final Map? item;
   /*
   TODO: --
   15. ok, kita ingin agar form ini bisa mengedit file
@@ -20,6 +21,7 @@ class HtProductCrudFormView extends StatefulWidget {
   */
   const HtProductCrudFormView({
     Key? key,
+    this.item,
   }) : super(key: key);
 
   Widget build(context, HtProductCrudFormController controller) {
@@ -47,7 +49,37 @@ class HtProductCrudFormView extends StatefulWidget {
           child: Container(
             padding: const EdgeInsets.all(20.0),
             child: Column(
-              children: const [
+              children: [
+                QImagePicker(
+                  label: 'photo',
+                  onChanged: (v) {
+                    controller.photo = v;
+                    print(v);
+                  },
+                  // value: controller.photo ??
+                  //     'https://i.ibb.co/S32HNjD/no-image.jpg',
+                ),
+                QTextField(
+                  label: 'Product Name',
+                  onChanged: (v) {
+                    controller.productName = v;
+                  },
+                  value: controller.productName,
+                ),
+                QNumberField(
+                  label: 'Price Name',
+                  onChanged: (v) {
+                    controller.price = double.tryParse(v) ?? 0.0;
+                  },
+                  value: controller.price.toString(),
+                ),
+                QMemoField(
+                  label: 'Description',
+                  onChanged: (v) {
+                    controller.description = v;
+                  },
+                  value: controller.description,
+                ),
                 /*
                 TODO: --
                 2. buat variabel photo, productName dan price

@@ -111,6 +111,10 @@ class HtProductCrudListView extends StatefulWidget {
                   //
                   return InkWell(
                     onTap: () async {
+                      await Get.to(HtProductCrudFormView(
+                        item: item,
+                      ));
+                      controller.loadProducts();
                       //TODO:--
                       /*
                       25. Tambahkan kode ini

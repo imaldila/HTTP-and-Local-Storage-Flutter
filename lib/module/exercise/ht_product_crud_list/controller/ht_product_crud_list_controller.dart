@@ -51,6 +51,7 @@ class HtProductCrudListController extends State<HtProductCrudListView>
       ),
     );
     Map obj = response.data;
+    print(response.data);
     productList = obj["data"];
     setState(() {});
   }
@@ -74,6 +75,16 @@ class HtProductCrudListController extends State<HtProductCrudListView>
 
   delete(Map item) async {
     showLoading();
+    var id = item["id"];
+    var response = await Dio().delete(
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+      "${AppConfig.baseUrl}/products/$id",
+    );
+    print(response.statusCode);
 
     //TODO: --
     /*
