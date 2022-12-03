@@ -22,6 +22,10 @@ class LsFavoriteController extends State<LsFavoriteView>
   bool ready = false;
   List productList = [];
   loadProductList() async {
+    productList = mainStorage.get("products");
+    setState(() {});
+    ready = true;
+    setState(() {});
     /*
     TODO: --
     1. Ambil data product dari local storage, gunakan kode ini:
@@ -40,6 +44,10 @@ class LsFavoriteController extends State<LsFavoriteView>
   }
 
   addToFavorite(Map item) {
+    item["favorite"] = !(item["favorite"] ?? false);
+    setState(() {});
+    saveToLocalStorage();
+    setState(() {});
     /*
     TODO: --
     4. Gunakan kode ini, untuk mengubah status product
